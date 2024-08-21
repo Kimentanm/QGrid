@@ -135,7 +135,7 @@ public struct QGrid<Data, Content>: View
     
   private func content(using geometry: GeometryProxy) -> some View {
    VStack(spacing: self.vSpacing) {
-     ForEach((0..<self.rows).map { QGridIndex(id: $0) }) { row in
+       ForEach((0..<self.rows).map { QGridIndex(id: $0) }, id: \.id) { row in
        self.rowAtIndex(row.id * self.cols,
                        geometry: geometry)
      }
