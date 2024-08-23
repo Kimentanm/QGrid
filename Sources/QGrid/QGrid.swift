@@ -45,7 +45,7 @@ public struct QGrid<Data, Content>: View
   private let showScrollIndicators: Bool
   
   private let data: [Data.Element]
-  private let content: (Data.Element) -> Content
+  private let content: (Data.Element, Int) -> Content
   
   // MARK: - INITIALIZERS
   
@@ -70,7 +70,7 @@ public struct QGrid<Data, Content>: View
               hPadding: CGFloat = 10,
               isScrollable: Bool = true,
               showScrollIndicators: Bool = false,
-              content: @escaping (Data.Element) -> Content) {
+              content: @escaping (Data.Element, Int) -> Content) {
     self.data = data.map { $0 }
     self.content = content
     self.columns = max(1, columns)
@@ -126,7 +126,7 @@ public struct QGrid<Data, Content>: View
     HStack(spacing: self.hSpacing) {
       ForEach((0..<(isLastRow ? data.count % cols : cols))
       .map { QGridIndex(id: $0) }) { column in
-        self.content(self.data[index + column.id])
+        self.content(self.data[index + column.id], index + column.id)
         .frame(width: self.contentWidthFor(geometry))
       }
       if isLastRow { Spacer() }
